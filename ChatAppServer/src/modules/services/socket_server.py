@@ -7,6 +7,9 @@ from socket import (
     SOL_SOCKET, SO_REUSEADDR
 )
 
+from ChatAppServer.src.utils.config_manager import ConfigManager
+
+from .client_handler import ClientHandler
 
 class SocketServer:
     """
@@ -15,6 +18,8 @@ class SocketServer:
 
     def __init__(self):
         super(SocketServer, self).__init__()
+
+        self.config_manager = ConfigManager()
 
         self.sock_connaction = socket(AF_INET, SOCK_STREAM)
         self.sock_connaction.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
@@ -25,8 +30,28 @@ class SocketServer:
             :return:
         """
 
-        self.sock_connaction.bind(())
+        self.sock_connaction.bind((
+            self.config_manager.get().socket_server.IP,
+            self.config_manager.get().socket_server.PORT
+        ))
 
+        self.sock_connaction.listen(
+            self.config_manager.get().socket_server.LISTEN_CLIENT
+        )
+
+    def run(self):
+        """ start server for listining clients
+            :params:
+            :return:
+        """
+
+        client, client_address = self.sock_connaction.accept()
+
+        # we create new thread per client thet connect to server
+        ClientHandler(
+            client= client,
+            client_address= client_address
+        ).start()
 
     
         
