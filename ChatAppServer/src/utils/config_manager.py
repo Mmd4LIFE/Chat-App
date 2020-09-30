@@ -6,7 +6,7 @@ from json import loads as json_loads
 
 from easydict import EasyDict as edict
 
-from ChatAppServer.src.commons.constants.paths import APP_SETTING_PATH
+from commons.constants.paths import APP_SETTING_PATH
 
 class ConfigManager:
 

@@ -6,8 +6,10 @@ from socket import (
     socket, AF_INET, SOCK_STREAM,
     SOL_SOCKET, SO_REUSEADDR
 )
+from datetime import datetime
 
-from ChatAppServer.src.utils.config_manager import ConfigManager
+from utils.config_manager import ConfigManager
+from commons.constants.colors import Color
 
 from .client_handler import ClientHandler
 
@@ -24,7 +26,9 @@ class SocketServer:
         self.sock_connaction = socket(AF_INET, SOCK_STREAM)
         self.sock_connaction.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
 
-    def start(self):
+        self.__start__()
+
+    def __start__(self):
         """ this method try creating socket connection
             :params:
             :return:
@@ -39,6 +43,10 @@ class SocketServer:
             self.config_manager.get().socket_server.LISTEN_CLIENT
         )
 
+        print(Color.YELLOW + str(datetime.now()).split('.')[0] +
+        " => [+] Server ready to listening" + 
+        Color.WHITE)
+
     def run(self):
         """ start server for listining clients
             :params:
@@ -52,6 +60,8 @@ class SocketServer:
             client= client,
             client_address= client_address
         ).start()
+
+        self.run()
 
     
         
