@@ -61,6 +61,7 @@ class SocketServer:
             + " => [+] Some client connected to server with (%s)" % str(client_address)
         )
 
+
         # we create new thread per client thet connect to server
         ClientHandler(
             client= client,

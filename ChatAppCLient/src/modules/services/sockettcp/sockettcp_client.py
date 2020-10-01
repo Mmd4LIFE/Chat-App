@@ -43,8 +43,8 @@ class SocketClientTCP:
             ack_know = self.sock.recv(8096)
             if ack_know is None:
                 pass
-
             print(ack_know)
+            self.sock.sendall("[EXIT]".encode("utf-8"))
 
         elif response_code == 111:
             print(
