@@ -7,6 +7,9 @@
 from threading import Thread
 from datetime import datetime
 from json import dumps as json_dumps
+from time import sleep
+
+from .message_handler import MassageHandler
 
 
 class ClientHandler(Thread):
@@ -29,20 +32,21 @@ class ClientHandler(Thread):
             self.client.sendall(str(
                 json_dumps({
                     "message" : "Welcome to Chat-App server",
-                    "command" : "START"
+                    "command" : "START",
+                    "from" : "server",
+                    "group" : "brodcast"
+                })
+            ).encode("utf-8"))
+            sleep(.1)
+            self.client.sendall(str(
+                json_dumps({
+                    "message" : "",
+                    "command" : "AUTH",
+                    "from" : "server",
+                    "group" : "brodcast"
                 })
             ).encode("utf-8"))
             self.firt_message = True
 
-
-        message = str(self.client.recv(8096).decode("utf-8"))
-        if message is None or message == "[EXIT]":
-            self.client.close()
-            return
-
-        print("[+] client send message as: %s" % (message))
-
-        del message
-
-        self.run()
+        MassageHandler(socket_client=self.client).start()
 

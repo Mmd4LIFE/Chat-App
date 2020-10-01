@@ -10,6 +10,7 @@ from socket import (
 )
 from utils.config_manager import ConfigManager
 from commons.constants.colors import Colors
+from  .command_handler import CommandHandler
 
 class SocketClientTCP:
 
@@ -37,14 +38,8 @@ class SocketClientTCP:
         ))
 
         if response_code == 0:
-            print(
-                Colors.FORE_GREEN + "[+] connecting to ChatApp server was successfully ..."
-            )
-            ack_know = self.sock.recv(8096)
-            if ack_know is None:
-                pass
-            print(ack_know)
-            self.sock.sendall("[EXIT]".encode("utf-8"))
+
+            CommandHandler(client_socket=self.sock).start()
 
         elif response_code == 111:
             print(
