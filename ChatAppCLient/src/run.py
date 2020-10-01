@@ -3,8 +3,11 @@
     - this package is entry point of applocation
 """
 
+from core.startup import StartUp
+
+
 def main():
-    pass
+    StartUp().start()
 
 
 if __name__ == "__main__":

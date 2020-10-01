@@ -9,7 +9,8 @@ from socket import (
 from datetime import datetime
 
 from utils.config_manager import ConfigManager
-from commons.constants.colors import Color
+from commons.constants.colors import Colors
+#from ChatAppServer.src.commons.constants.colors import Colors
 
 from .client_handler import ClientHandler
 
@@ -43,9 +44,9 @@ class SocketServer:
             self.config_manager.get().socket_server.LISTEN_CLIENT
         )
 
-        print(Color.YELLOW + str(datetime.now()).split('.')[0] +
+        print(Colors.FORE_YELLOW + str(datetime.now()).split('.')[0] +
         " => [+] Server ready to listening" + 
-        Color.WHITE)
+        Colors.FORE_WHITE)
 
     def run(self):
         """ start server for listining clients
@@ -55,11 +56,16 @@ class SocketServer:
 
         client, client_address = self.sock_connaction.accept()
 
+        print(
+            Colors.FORE_CYAN + str(datetime.now()).split('.')[0]
+            + " => [+] Some client connected to server with (%s)" % str(client_address)
+        )
+
         # we create new thread per client thet connect to server
         ClientHandler(
             client= client,
             client_address= client_address
-        ).start()
+        ).run()
 
         self.run()
 

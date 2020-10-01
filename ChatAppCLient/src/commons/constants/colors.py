@@ -5,7 +5,7 @@
 
 from colorama import Fore, Back, init as colorama_init
 
-class Color:
+class Colors:
     colorama_init(autoreset=True)
 
     FORE_GREEN = Fore.GREEN
