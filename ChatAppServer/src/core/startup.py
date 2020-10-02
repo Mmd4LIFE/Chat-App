@@ -17,11 +17,23 @@ class StartUp:
 
         SocketServer().run()
 
+    def __start_db_service__(self):
+        # from ChatAppServer.src.modules.data.app_context import AppContext
+        from modules.data.app_context import AppContext
+        # from ChatAppServer.src.modules.models.user import User
+        from modules.models.user import User
+
+        app_context = AppContext()
+        app_context.inject_db_set(User().get_types)
+        app_context.start()
+
     def start(self):
         """ this function start app from this lines
             :params:
             :return:
         """
+
+        self.__start_db_service__()
 
         self.__start_sockettcp_service__()
 

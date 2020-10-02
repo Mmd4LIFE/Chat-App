@@ -18,6 +18,7 @@ class ConfigManager:
             configs = json_loads(file.read().strip("\n"))
         return configs
 
+    @property
     def get(self):
         dict_e = edict(self.__read_config__())
         return dict_e

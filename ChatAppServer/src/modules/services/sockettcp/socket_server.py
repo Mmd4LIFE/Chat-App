@@ -36,12 +36,12 @@ class SocketServer:
         """
 
         self.sock_connaction.bind((
-            self.config_manager.get().socket_server.IP,
-            self.config_manager.get().socket_server.PORT
+            self.config_manager.get.socket_server.IP,
+            self.config_manager.get.socket_server.PORT
         ))
 
         self.sock_connaction.listen(
-            self.config_manager.get().socket_server.LISTEN_CLIENT
+            self.config_manager.get.socket_server.LISTEN_CLIENT
         )
 
         print(Colors.FORE_YELLOW + str(datetime.now()).split('.')[0] +

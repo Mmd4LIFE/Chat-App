@@ -4,3 +4,5 @@
 """
 
 APP_SETTING_PATH = "appsettings.json"
+
+DATABASE_PATH = "./assets/app.db"
