@@ -4,12 +4,13 @@
 """
 
 from sqlite3 import connect
-from typing import Set
+from typing import List
 
 #from ChatAppServer.src.commons.constants.paths import DATABASE_PATH
 from commons.constants.paths import DATABASE_PATH
 #from ChatAppServer.src.modules.models.user import *
 from modules.models import *
+#from ChatAppServer.src.modules.models.user import User
 
 
 class AppContext:
@@ -30,39 +31,25 @@ class AppContext:
         for item in self.tables:
 
             data_list = item
+            feilds_and_types = data_list[1:]
+            feild_string: str = ""
+            
+            for feilds in feilds_and_types:
 
-            feilds_and_type = data_list[1:]
-            feilsd_string: str = ""
-            for feilsds in feilds_and_type:
-                feilsds_name: str = feilsds[0]
-                feilsds_type: str = feilsds[1]
+                feilds_name: str = feilds[0]
+                feilds_type: str = feilds[1]
 
-                feilsd_string += feilsds_name + " " + feilsds_type + ","
-                # """ username nvarchar(100), password nvarchar(100), """
+                feild_string += feilds_name + " " + feilds_type + ","
 
-            feilsd_string = feilsd_string[:len(feilsd_string): - 1]
+            feild_string = feild_string[:len(feild_string) - 1]
 
-            #command = f"""
-            #    create table if not exists {data_list[0][0]}(
-
-            #        {feilsd_string}
-            #    );
-            #"""
-            #command = f"""
-            #    CREATE TABLE if not exists {data_list[0][0]}
-            #        id integer PRIMARY KEY AUTOINCREMENT,
-            #        {feilsd_string}
-            #    ;
-            #"""
-
-            #cur.execute(command)
-
-            cur.execute(f"""
-                CREATE TABLE if not exists {data_list[0][0]}(
+            command = f"""
+                CREATE TABLE if not exists user(
                     id integer PRIMARY KEY AUTOINCREMENT,
-                    {feilsd_string}
+                    {feild_string}
                 );
-            """)
+            """
+            cur.execute(command)
 
         self.connection.commit()
 
