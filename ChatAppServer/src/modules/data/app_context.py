@@ -53,6 +53,35 @@ class AppContext:
 
         self.connection.commit()
 
+    def insert_query(self, command: str):
+        self.connection.cursor().execute(command)
+        self.connection.commit()
+
+    def select_query(self, command: str):
+        return self.connection.cursor().execute(command)
+
+    def is_exist_in_db(self, table, parammeter: str, value: str):
+        """ check that data exist in database or not
+        :param table: table name that you want check data is exist
+        :param parammeter: parammeter that you wanna check it
+        :param value: the data that you check it is exist in db or not
+        :return:
+        """
+        cur = self.connection.cursor()
+
+        result = cur.execute(
+            f"""
+                select id from {table} where {parammeter}=='{value}'
+            """
+        )
+
+        is_exist = None
+        for row in result:
+            if row is not None:
+                is_exist = True
+
+        return is_exist
+
     def start(self):
         self.__create_tables__()
 
